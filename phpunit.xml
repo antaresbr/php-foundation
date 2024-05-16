@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit 
+    testdox="true" colors="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    bootstrap = "vendor/autoload.php"
+    >
+    <testsuites>
+        <testsuite name="Foundation">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
