@@ -13,6 +13,8 @@ class CurrentEnv
 
     /**
      * Access protected _osenv property
+     * 
+     * @var ArrayedObject
      */
     public function osenv(): ArrayedObject {
         if ($this->_osenv === null) {
@@ -30,6 +32,8 @@ class CurrentEnv
 
     /**
      * Access protected _ENV property
+     * 
+     * @var ArrayedObject
      */
     public function ENV(): ArrayedObject {
         if ($this->_ENV === null) {
@@ -47,6 +51,8 @@ class CurrentEnv
 
     /**
      * Access protected _ENV property
+     * 
+     * @var ArrayedObject
      */
     public function SERVER(): ArrayedObject {
         if ($this->_SERVER === null) {
@@ -56,7 +62,7 @@ class CurrentEnv
     }
 
     /**
-     * Reset environment variable to this CurrentEnv object
+     * Reset environment variables to this CurrentEnv object
      * 
      * @return void
      */

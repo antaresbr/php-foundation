@@ -135,4 +135,20 @@ final class ArrayedObjectTest extends TestCase
         $ao2->k2 = 'x2';
         $this->assertNotEquals($ao1->k2, $ao2->k2);
     }
+
+    public function testJsonSerialization()
+    {
+        $ao1 = new ArrayedObject();
+        $ao1->setup(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']);
+        $jo1 = json_encode($ao1);
+        $this->assertJson($jo1);
+
+        $jo2 = json_decode($jo1, true);
+        $this->assertIsArray($jo2);
+        $this->assertEquals($ao1->jsonSerialize(), $jo2);
+        $this->assertEquals($ao1->k2, $jo2['k2']);
+        $this->assertEquals($ao1->count(), count($jo2));
+        $jo2['k7'] = 'x7';
+        $this->assertNotEquals($ao1->count(), count($jo2));
+    }
 }

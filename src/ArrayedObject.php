@@ -6,10 +6,11 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use JsonSerializable;
 use Serializable;
 use Traversable;
 
-class ArrayedObject implements ArrayAccess, Countable, IteratorAggregate, Traversable, Serializable
+class ArrayedObject implements ArrayAccess, Countable, IteratorAggregate, Traversable, JsonSerializable, Serializable
 {
     /**
      * Protected storage data
@@ -222,21 +223,33 @@ class ArrayedObject implements ArrayAccess, Countable, IteratorAggregate, Traver
         return new ArrayIterator($this->storage);
     }
 
+    //-- JsonSerializable
+
+    /**
+     * Get items data itself for serialization
+     *
+     * @return mixed
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->toArray();
+    }
+
     //-- Serializable
 
-    public function __serialize() {
-        // nothing to do
+    public function __serialize(): array {
+        return $this->storage;
     }
 
-    public function __unserialize($data) {
-        // nothing to do
+    public function __unserialize(?array $data): void {
+        $this->setup($data);
     }
 
-    public function serialize() {
-        return serialize($this->storage);
+    public function serialize(): ?string {
+        return serialize($this->__serialize());
     }
 
-    public function unserialize($data) {
-        $this->storage = unserialize($data);
+    public function unserialize($data): void {
+        $this->__unserialize(unserialize($data));
     }
 }

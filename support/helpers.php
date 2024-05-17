@@ -27,3 +27,81 @@ if (!function_exists('ai_foundation_path')) {
         return dirname(__DIR__) . $resource;
     }
 }
+
+if (!function_exists('ai_foundation_value')) {
+    /**
+     * Return the default value of the given value.
+     *
+     * @param  mixed  $value
+     * @return mixed
+     */
+    function ai_foundation_value($value, ...$args)
+    {
+        return $value instanceof Closure ? $value(...$args) : $value;
+    }
+}
+
+if (!function_exists('ai_foundation_env')) {
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function ai_foundation_env($key, $default = null)
+    {
+        $f = 'env';
+        if (function_exists($f)) {
+            return $f($key, $default);
+        }
+
+        $value = getenv($key);
+        if ($value === false) {
+            return ai_foundation_value($default);
+        }
+
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+
+            case 'false':
+            case '(false)':
+                return false;
+
+            case 'empty':
+            case '(empty)':
+                return '';
+
+            case 'null':
+            case '(null)':
+                return;
+        }
+
+        if (preg_match('/\A([\'"])(.*)\1\z/', $value, $matches)) {
+            return $matches[2];
+        }
+
+        return $value;
+    }
+}
+
+if (!function_exists('ai_foundation_config')) {
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function ai_foundation_config($key, $default = null)
+    {
+        $f = 'config';
+        if (function_exists($f)) {
+            return $f($key, $default);
+        }
+
+        return ai_foundation_value($default);
+    }
+}
