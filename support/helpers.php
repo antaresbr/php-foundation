@@ -105,3 +105,18 @@ if (!function_exists('ai_foundation_config')) {
         return ai_foundation_value($default);
     }
 }
+
+if (!function_exists('ai_foundation_property_value')) {
+    /**
+     * Gets safely object's property value.
+     *
+     * @param  mixed  $obj
+     * @param  mixed  $property
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function ai_foundation_property_value($obj, $property, $default = null)
+    {
+        return property_exists($obj, $property) ? $obj->{$property} : $default;
+    }
+}
