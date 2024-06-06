@@ -117,6 +117,14 @@ if (!function_exists('ai_foundation_property_value')) {
      */
     function ai_foundation_property_value($obj, $property, $default = null)
     {
-        return property_exists($obj, $property) ? $obj->{$property} : $default;
+        $value = $default;
+
+        if (property_exists($obj, $property)) {
+            $prop = (new ReflectionClass($obj))->getProperty($property);
+            $prop->setAccessible(true);
+            $value = $prop->getValue($obj);
+        }
+
+        return $value;
     }
 }
