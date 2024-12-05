@@ -1,5 +1,7 @@
 <?php
 
+use Antares\Foundation\Arr;
+
 if (!function_exists('ai_foundation_infos')) {
     /**
      * Get package infos.
@@ -119,10 +121,15 @@ if (!function_exists('ai_foundation_property_value')) {
     {
         $value = $default;
 
-        if (property_exists($obj, $property)) {
-            $prop = (new ReflectionClass($obj))->getProperty($property);
-            $prop->setAccessible(true);
-            $value = $prop->getValue($obj);
+        if (!is_null($obj)) {
+            if (is_array($obj)) {
+                $value = Arr::get($obj, $property, $default);
+            }
+            elseif (property_exists($obj, $property)) {
+                $prop = (new ReflectionClass($obj))->getProperty($property);
+                $prop->setAccessible(true);
+                $value = $prop->getValue($obj);
+            }
         }
 
         return $value;
