@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
 use Antares\Foundation\CurrentEnv;
-use Antares\Foundation\Str;
 use PHPUnit\Framework\TestCase;
 
 final class CurrentEnvTest extends TestCase

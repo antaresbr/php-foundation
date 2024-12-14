@@ -107,31 +107,3 @@ if (!function_exists('ai_foundation_config')) {
         return ai_foundation_value($default);
     }
 }
-
-if (!function_exists('ai_foundation_property_value')) {
-    /**
-     * Gets safely object's property value.
-     *
-     * @param  mixed  $obj
-     * @param  mixed  $property
-     * @param  mixed  $default
-     * @return mixed
-     */
-    function ai_foundation_property_value($obj, $property, $default = null)
-    {
-        $value = $default;
-
-        if (!is_null($obj)) {
-            if (is_array($obj)) {
-                $value = Arr::get($obj, $property, $default);
-            }
-            elseif (property_exists($obj, $property)) {
-                $prop = (new ReflectionClass($obj))->getProperty($property);
-                $prop->setAccessible(true);
-                $value = $prop->getValue($obj);
-            }
-        }
-
-        return $value;
-    }
-}
