@@ -3,6 +3,7 @@
 namespace Antares\Foundation;
 
 use ReflectionClass;
+use Traversable;
 
 class Obj
 {
@@ -87,11 +88,11 @@ class Obj
      * Safe method call
      *
      * @param  object|string  $target
-     * @param  string  $method
+     * @param  string|Traversable  $method
      * @param  array  $args
      * @return mixed
      */
-    public static function safeCall(object|string $target, string $method, array $args = []): mixed
+    public static function safeCall(object|string $target, string $method, array|Traversable $args = []): mixed
     {
         if (!is_null($target) and method_exists($target, $method)) {
             $callback = (new ReflectionClass($target))->getMethod($method);
